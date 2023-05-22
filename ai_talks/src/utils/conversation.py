@@ -4,9 +4,17 @@ from random import randrange, choices
 import streamlit as st
 from openai.error import InvalidRequestError, OpenAIError
 from streamlit_chat import message
+
+from AMUseBot.src.DP.dp import DP
+from AMUseBot.src.DST.dst import DST
+from AMUseBot.src.NLU.nlu import NLU
 from .agi.chat_gpt import create_gpt_completion
 from .stt import show_voice_input
 from .tts import show_audio_player
+
+import os
+
+absolute_path = os.path.dirname(__file__)
 
 
 def clear_chat() -> None:
@@ -53,6 +61,40 @@ def show_chat(ai_content: str, user_text: str) -> None:
         for i in range(len(st.session_state.generated)):
             message(st.session_state.past[i], is_user=True, key=str(i) + "_user", seed=st.session_state.seed)
             message(st.session_state.generated[i], key=str(i), seed=st.session_state.seed)
+
+
+def amuseAPI():
+    recipe_path = os.path.join(absolute_path, "recipe")
+    dialog_path = os.path.join(absolute_path, "dialog")
+    # initial modules
+    dst = DST(recipe_path=recipe_path, dialog_path=dialog_path)
+    dp = DP(dst=dst)
+    nlu = NLU(intent_dict_path=os.path.join(absolute_path, 'utils/intent_dict.json'),
+              model_identifier_path=os.path.join(absolute_path, 'models/NLU/roberta-base-cookdial.txt'))
+
+
+    intent = None
+    system_message = None
+
+    dst.restart()
+
+    system_message = dp.generate_response(intent)
+
+
+    user_message = input()
+    if "restart" == user_message.lower():
+        break
+
+    intents = nlu.predict(user_message)
+    # print("intent ", intent)
+    dst.update_dialog_history(
+        system_message=system_message,
+        user_message=user_message,
+        intents=intents,
+    )
+
+    system_message = dp.generate_response(intents)
+
 
 
 def show_conversation() -> None:
