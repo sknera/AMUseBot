@@ -65,10 +65,17 @@ def show_conversation() -> None:
             {"role": "user", "content": st.session_state.user_text},
         ]
 
-    ai_content = "Dummy respone from AI"
+    # ai_content = "Dummy respone from AI"
+    intents = st.session_state.nlu.predict(st.session_state.user_text)
+    st.session_state.dst.update_dialog_history(
+                                system_message='', 
+                                user_message=st.session_state.user_text, 
+                                intents=intents,
+                                )
+    system_message = st.session_state.dp.generate_response(intents)
     # delete random before deploying with our model
-    random_str = ''.join(choices(string.ascii_uppercase + string.digits, k=5))
-    ai_content += random_str
+    #random_str = ''.join(choices(string.ascii_uppercase + string.digits, k=5))
+    ai_content = system_message
     st.session_state.messages.append({"role": "assistant", "content": ai_content})
     if ai_content:
         show_chat(ai_content, st.session_state.user_text)
