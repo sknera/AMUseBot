@@ -42,7 +42,7 @@ if __name__ == '__main__':
     if "locale" not in st.session_state:
         st.session_state.locale = en
     if "generated" not in st.session_state:
-        st.session_state.generated = []
+        st.session_state.generated = ["Hello! I'm AMUseBot, a virtual cooking assistant. Please tell me the name of the dish that you'd like to prepare today."]
     if "past" not in st.session_state:
         st.session_state.past = []
     if "messages" not in st.session_state:
@@ -70,16 +70,18 @@ def show_graph():
     if st.session_state.generated:
         user, chatbot = [], []
         graph = graphviz.Digraph()
-        for i in range(len(st.session_state.generated)):
-            user.append(st.session_state.past[i])
+        for i in range(len(st.session_state.past)):
             chatbot.append(st.session_state.generated[i])
+            user.append(st.session_state.past[i])
         for x in range(len(user)):
-            graph.edge(st.session_state.past[x], st.session_state.generated[x])
+            chatbot_text = [word + '\n' if i % 5 == 0 and i > 0 else word for i, word in enumerate(st.session_state.generated[x].split(' '))]
+            user_text    = [word + '\n' if i % 5 == 0 and i > 0 else word for i, word in enumerate(st.session_state.past[x].split(' '))]
+            graph.edge(' '.join(chatbot_text), ' '.join(user_text))
             try:
-                graph.edge(st.session_state.generated[x], st.session_state.past[x+1])
+                graph.edge(' '.join(user_text), ' '.join([word + '\n' if i % 5 == 0 and i > 0 else word for i, word in enumerate(st.session_state.generated[x + 1].split(' '))]))
             except:
                 pass
-            st.graphviz_chart(graph)
+        st.graphviz_chart(graph)
 
 
 def main() -> None:
@@ -101,12 +103,12 @@ def main() -> None:
         elif role_kind == st.session_state.locale.radio_text2: 
             c2.text_input(label=st.session_state.locale.select_placeholder3, key="role")
         
-    if st.session_state.user_text:
-        show_graph()
-        show_conversation()
-
     get_user_input()
     show_chat_buttons()
+    
+    show_conversation()
+    with st.sidebar:
+        show_graph()
 
 
 if __name__ == "__main__":
