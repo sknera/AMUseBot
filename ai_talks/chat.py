@@ -3,7 +3,6 @@ from random import randrange
 
 from AMUseBotBackend.src.DP.dp import DP
 from AMUseBotBackend.src.DST.dst import DST
-from AMUseBotBackend.src.NLU.nlu import NLU
 
 import graphviz
 import streamlit as st
@@ -13,7 +12,7 @@ from src.utils.lang import en
 
 
 if __name__ == '__main__':
-
+    
     # --- PATH SETTINGS ---
     current_dir: Path = Path(__file__).parent if "__file__" in locals() else Path.cwd()
     css_file: Path = current_dir / "src/styles/.css"
@@ -61,9 +60,6 @@ if __name__ == '__main__':
         st.session_state.dst = DST(recipe_path="AMUseBotFront/ai_talks/AMUseBotBackend/recipe/", dialog_path="AMUseBotFront/ai_talks/AMUseBotBackend/dialog/")
     if "dp" not in st.session_state:
         st.session_state.dp = DP(dst=st.session_state.dst)
-    if "nlu" not in st.session_state:
-        st.session_state.nlu = NLU(intent_dict_path='AMUseBotFront/ai_talks/AMUseBotBackend/utils/intent_dict.json',
-                                model_identifier_path='AMUseBotFront/ai_talks/AMUseBotBackend/models/NLU/roberta-base-cookdial.txt')
 
 def show_graph():
     # Create a graphlib graph object
