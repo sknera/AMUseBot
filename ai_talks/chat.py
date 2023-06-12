@@ -10,6 +10,8 @@ from PIL import Image
 from src.utils.conversation import get_user_input, show_chat_buttons, show_conversation
 from src.utils.lang import en
 
+import os
+from dotenv import load_dotenv
 
 if __name__ == '__main__':
     
@@ -37,6 +39,11 @@ if __name__ == '__main__':
     with open(css_file) as f:
         st.markdown(f"<style>{f.read()}</style>", unsafe_allow_html=True)
 
+    load_dotenv()
+
+    DIALOG_PATH = os.getenv('DIALOG_PATH')
+    RECIPE_PATH = os.getenv('RECIPE_PATH')
+
     # Storing The Context
     if "locale" not in st.session_state:
         st.session_state.locale = en
@@ -57,7 +64,7 @@ if __name__ == '__main__':
     if "total_tokens" not in st.session_state:
         st.session_state.total_tokens = []
     if "dst" not in st.session_state:
-        st.session_state.dst = DST(recipe_path="AMUseBotFront/ai_talks/AMUseBotBackend/recipe/", dialog_path="AMUseBotFront/ai_talks/AMUseBotBackend/dialog/")
+        st.session_state.dst = DST(recipe_path=RECIPE_PATH, dialog_path=DIALOG_PATH)
     if "dp" not in st.session_state:
         st.session_state.dp = DP(dst=st.session_state.dst)
 

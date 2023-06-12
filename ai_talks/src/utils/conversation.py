@@ -7,12 +7,18 @@ from streamlit_chat import message
 from .stt import show_voice_input
 from .tts import show_audio_player
 
-from AMUseBotBackend.src.DP.dp import DP
-from AMUseBotBackend.src.DST.dst import DST
 from AMUseBotBackend.src.NLU.nlu import NLU
 
+import os
+from dotenv import load_dotenv
+
+load_dotenv()
+
+INTENT_DICT_PATH = os.getenv('INTENT_DICT_PATH')
+MODEL_IDENTIFIER_PATH = os.getenv('MODEL_IDENTIFIER_PATH')
+
 @st.cache_resource
-def get_nlu_model(intent_dict_path = 'AMUseBotFront/ai_talks/AMUseBotBackend/utils/intent_dict.json', model_identifier_path = 'AMUseBotFront/ai_talks/AMUseBotBackend/models/NLU/roberta-base-cookdial.txt'):
+def get_nlu_model(intent_dict_path = INTENT_DICT_PATH, model_identifier_path = MODEL_IDENTIFIER_PATH):
     return NLU(intent_dict_path=intent_dict_path,
                             model_identifier_path=model_identifier_path)
 
