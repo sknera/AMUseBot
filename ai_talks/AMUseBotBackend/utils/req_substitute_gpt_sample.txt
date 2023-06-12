@@ -1,0 +1,55 @@
+Can you suggest a substitute for eggs in baking recipes?
+I have a nut allergy. What can I use as a substitute for almond flour in my recipe?
+I'm out of buttermilk. Is there a good substitute I can use in my pancakes?
+I want to make a vegetarian version of a recipe that calls for chicken broth. What can I use as a substitute?
+I don't have any fresh herbs on hand. Can you recommend a substitute for fresh basil in my pasta sauce?
+My recipe calls for white wine, but I don't have any. What can I substitute it with?
+I'm following a gluten-free diet. What can I use instead of regular flour in my bread recipe?
+I want to make a dairy-free dessert. What can I use as a substitute for butter?
+I'm making a recipe that calls for heavy cream. Is there a substitute I can use?
+I'm allergic to soy. Can you suggest an alternative to soy sauce in my stir-fry recipe?
+Substitute for eggs in baking?
+Almond flour alternative?
+Buttermilk substitute for pancakes?
+Vegetarian broth replacement?
+Substitutes for fresh basil?
+Alternative to white wine?
+Gluten-free flour options?
+Dairy-free butter substitute?
+Substitute for heavy cream?
+Soy sauce alternative?
+Out of milk, any alternatives?
+No milk, what can I use instead?
+Need milk substitute, suggestions?
+Milk unavailable, any other options?
+Running low on milk, substitutes?
+I'm out of milk, what can I use as a substitute?
+I don't have eggs, any alternatives?
+Running low on sugar, any other options?
+Salt is unavailable, what can I use instead?
+Need a substitute for butter, any suggestions?
+I'm out of tomatoes, what can I use in their place?
+I don't have garlic, any alternatives?
+Running low on flour, any other options?
+Vanilla extract is unavailable, what can I use instead?
+Need a substitute for lemon juice, any suggestions?
+I don't have tomatoes.
+I don't have cilantro.
+I don't have yogurt.
+I don't have chickpeas.
+I don't have tamarind chutney.
+I don't have sev.
+I don't have potatoes.
+I don't have onions.
+I don't have green chilies.
+I don't have puffed rice.
+I don't have cow's milk.
+I don't have soy milk.
+I don't have cream.
+I don't have flour.
+I don't have all-purpose flour.
+I don't have whole wheat flour.
+I don't have self-rising flour.
+I don't have gluten-free flour.
+I don't have almond flour.
+I don't have coconut flour.
