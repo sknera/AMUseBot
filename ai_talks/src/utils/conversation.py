@@ -44,8 +44,19 @@ def get_user_input():
 def on_send():
     st.session_state.past.append(st.session_state.user_text)
 
+def startASR():
+    try:
+        while True:
+            text, sample_length, inference_time = asr.get_last_text()
+            st.write(f"{sample_length:.3f}s"
+                  + f"\t{inference_time:.3f}s"
+                  + f"\t{text}")
+
+    except KeyboardInterrupt:
+        asr.stop()
+
 def show_chat_buttons() -> None:
-    b0, b1, b2 = st.columns(3)
+    b0, b1, b2, b3 = st.columns(4)
     with b0, b1, b2:
         b0.button(label=st.session_state.locale.chat_run_btn, on_click=on_send)
         b1.button(label=st.session_state.locale.chat_clear_btn, on_click=clear_chat)
@@ -55,6 +66,7 @@ def show_chat_buttons() -> None:
             file_name="ai-talks-chat.json",
             mime="application/json",
         )
+        b3.button(label="voice", on_click=startASR)
 
 # def show_chat(ai_content: str, user_text: str) -> None:
 #     first_message = True
@@ -77,12 +89,23 @@ def show_chat_buttons() -> None:
 #         if first_message:
 #             print('message 3')
 #             message(st.session_state.generated[-1], key=str(-1), seed=st.session_state.seed)
-        
+def scroll_to_bottom():
+    st.markdown(
+        """
+        <script>
+        const container = document.querySelector('.stContainer > div')
+        container.scrollTop = container.scrollHeight
+        </script>
+        """,
+        unsafe_allow_html=True,
+    )
+
 def show_chat() -> None:
     for i in range(len(st.session_state.past)):
         message(st.session_state.generated[i], key=str(i), seed=st.session_state.seed)
         message(st.session_state.past[i], is_user=True, key=str(i) + "_user", seed=st.session_state.seed)        
     message(st.session_state.generated[-1], key=str(-1), seed=st.session_state.seed)
+    scroll_to_bottom()
     
 def show_conversation() -> None:
     if st.session_state.messages:
@@ -110,6 +133,9 @@ def show_conversation() -> None:
     #random_str = ''.join(choices(string.ascii_uppercase + string.digits, k=5))
     ai_content = st.session_state.generated[-1]
     st.session_state.messages.append({"role": "assistant", "content": ai_content})
+    container = st.container()
+    container.write("This is inside the container")
+    st.write("This is outside the container")
     show_chat()
     st.divider()
     show_audio_player(ai_content)

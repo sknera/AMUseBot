@@ -3,7 +3,10 @@ import sys
 
 import numpy as np
 from rank_bm25 import BM25Okapi
+from dotenv import load_dotenv
 
+load_dotenv()
+RECIPES_INGREDIENTS_PATH = os.getenv('RECIPES_INGREDIENTS_PATH')
 
 def weighted_search(tokenized_query, bm25_recipes, bm25_ingredients,
                     tok_text_recipes, tok_text_ingredients, weight_recipe=10, weight_ingredient=1):
@@ -29,7 +32,7 @@ def search_recipe(query):
 
     tok_text_ingredients = []
     tok_text_recipes = []
-    with open('AMUseBotFront/ai_talks/AMUseBotBackend/utils/tools/ingredients_recipes_merged.csv', 'r') as file:
+    with open(RECIPES_INGREDIENTS_PATH, 'r') as file:
         for line in file:
             line = line.split(',  ')
             ingredients_splitted = [x for x in line[1].split(',')]

@@ -3,6 +3,7 @@ from random import randrange
 
 from AMUseBotBackend.src.DP.dp import DP
 from AMUseBotBackend.src.DST.dst import DST
+import streamlit.components.v1 as components
 
 import graphviz
 import streamlit as st
@@ -10,6 +11,10 @@ from PIL import Image
 from src.utils.conversation import get_user_input, show_chat_buttons, show_conversation
 from src.utils.lang import en
 
+# from live_asr import LiveWav2Vec2
+# english_model = "facebook/wav2vec2-large-960h-lv60-self"
+# asr = LiveWav2Vec2(english_model,device_name="default")
+# asr.start()
 import os
 from dotenv import load_dotenv
 
@@ -86,6 +91,19 @@ def show_graph():
                 pass
         st.graphviz_chart(graph)
 
+# def mermaid(code: str) -> None:
+#     components.html(
+#         f"""
+#         <pre class="mermaid">
+#             {code}
+#         </pre>
+#
+#         <script type="module">
+#             import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
+#             mermaid.initialize({{ startOnLoad: true }});
+#         </script>
+#         """
+#     )
 
 def main() -> None:
     c1, c2 = st.columns(2)
@@ -108,7 +126,11 @@ def main() -> None:
         
     get_user_input()
     show_chat_buttons()
-    
+    # mermaid("""graph TD;
+    # A -->|Dupa|B;
+    # A --> C;
+    # B --> D;
+    # C --> D;""")
     show_conversation()
     with st.sidebar:
         show_graph()
