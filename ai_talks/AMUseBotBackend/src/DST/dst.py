@@ -77,19 +77,21 @@ class DST:
         return [self.recipes[id] for id in recipes_id]
 
     def __set_steps(self):
-        dialog_files = [] 
+        dialog_files = []
         steps = {}
-        for (_, _, filenames) in walk(self.__dialog_path):
+        for (_, _, filenames) in walk(self.__recipe_path):
             dialog_files.extend(filenames)
             break
         for dialog_title in dialog_files:
             if dialog_title.startswith(f"{self.__recipe_id:03d}"):
-                with open(self.__dialog_path + "/" + dialog_title) as f:
+                with open(self.__recipe_path + dialog_title) as f:
                     data = json.load(f)
-                    for message in data["messages"]:
-                        if "inform_instruction" in message["annotations"]:
-                            steps[len(steps)] = message["utterance"]
+                    for row in data['content']:
+                        if row['type']=='instruction':
+                            steps[len(steps)] = row['text'].split(maxsplit=1)[1]
+
         self.__steps = steps
+
     
     def __set_ingredients(self):
         dialog_files = []
