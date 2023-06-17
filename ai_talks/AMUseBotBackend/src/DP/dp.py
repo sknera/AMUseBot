@@ -11,12 +11,21 @@ import streamlit as st
 
 class DP:
 
-    def __init__(self, dst: DST, llm_rephrasing=True, character='ramsay'): #TODO: a way to set llm_rephrasing status and a character
+    def __init__(self, dst: DST, llm_rephrasing=False, character='default'): #TODO: a way to set llm_rephrasing status and a character
         self.dst_module = dst
         self.llm_rephrasing = llm_rephrasing
         with open('ai_talks/AMUseBotBackend/utils/characters_dict.json') as f:
             characters_dict = json.load(f)
         self.character = characters_dict[character]
+
+    def change_character(self, character):
+        with open('ai_talks/AMUseBotBackend/utils/characters_dict.json') as f:
+            characters_dict = json.load(f)
+        self.character = characters_dict[character]
+        if self.character == 'default':
+            self.llm_rephrasing = False
+        else:
+            self.llm_rephrasing = True
 
 
     def llm_rephrase(self, character, response):
@@ -40,7 +49,6 @@ class DP:
 
 
     def generate_response(self, intents: List[str]) -> str:
-
         # Prompt
         if (None == intents):
             return NLG.MESSAGE_PROMPT
