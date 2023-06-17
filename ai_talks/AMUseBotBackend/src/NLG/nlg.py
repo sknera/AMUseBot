@@ -1,5 +1,4 @@
 import streamlit as st
-
 class NLG:
     MESSAGE_PROMPT = "Hello! I'm AMUseBot, a virtual cooking assistant. Please tell me the name of the dish that you'd like to prepare today."
     MESSAGE_HI   = "Hi! What do you want to make today?"

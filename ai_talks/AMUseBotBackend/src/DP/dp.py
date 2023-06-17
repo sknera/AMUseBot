@@ -8,7 +8,6 @@ import json
 
 import streamlit as st
 
-
 class DP:
 
     def __init__(self, dst: DST, llm_rephrasing=True, character='default'): #TODO: a way to set llm_rephrasing status and a character

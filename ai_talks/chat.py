@@ -111,8 +111,14 @@ def main() -> None:
             horizontal=True,
         )
         if role_kind == st.session_state.locale.radio_text1:
-            c2.selectbox(label=st.session_state.locale.select_placeholder2, key="role",
+            character_type = c2.selectbox(label=st.session_state.locale.select_placeholder2, key="role",
                              options=st.session_state.locale.ai_role_options)
+            st.session_state.dp.character = character_type
+            if character_type == 'default':
+                st.session_state.dp.llm_rephrasing = False
+            else:
+                st.session_state.dp.llm_rephrasing = True
+
         elif role_kind == st.session_state.locale.radio_text2: 
             c2.text_input(label=st.session_state.locale.select_placeholder3, key="role")
         
