@@ -7,6 +7,9 @@ import AMUseBotBackend.consts as c
 import json
 
 import streamlit as st
+from dotenv import load_dotenv
+load_dotenv()
+CHARACTERS = os.getenv('CHARACTERS')
 
 
 class DP:
@@ -14,12 +17,12 @@ class DP:
     def __init__(self, dst: DST, llm_rephrasing=False, character='default'): #TODO: a way to set llm_rephrasing status and a character
         self.dst_module = dst
         self.llm_rephrasing = llm_rephrasing
-        with open('ai_talks/AMUseBotBackend/utils/characters_dict.json') as f:
+        with open(CHARACTERS) as f:
             characters_dict = json.load(f)
         self.character = characters_dict[character]
 
     def change_character(self, character):
-        with open('ai_talks/AMUseBotBackend/utils/characters_dict.json') as f:
+        with open(CHARACTERS) as f:
             characters_dict = json.load(f)
         self.character = characters_dict[character]
         if self.character == 'default':
