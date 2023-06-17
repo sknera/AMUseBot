@@ -1,0 +1,8 @@
+RECIPE_ID_KEY = "recipe_id"
+CURR_STEP_KEY = "curr_step"
+STEPS_KEY = "steps"
+INGREDIENTS_KEY = "inngredients"
+DIALOG_HISTORY_KEY = "dialog_history"
+SYSTEM_MESSAGE_KEY = "system_message"
+USER_MESSAGE_KEY = "user_message"
+INTENTS_KEY = "intents"
