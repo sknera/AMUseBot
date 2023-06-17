@@ -9,6 +9,7 @@ import streamlit as st
 from PIL import Image
 from src.utils.conversation import get_user_input, show_chat_buttons, show_conversation
 from src.utils.lang import en
+import openai
 
 import os
 from dotenv import load_dotenv
@@ -43,6 +44,7 @@ if __name__ == '__main__':
 
     DIALOG_PATH = os.getenv('DIALOG_PATH')
     RECIPE_PATH = os.getenv('RECIPE_PATH')
+    API_KEY = os.getenv('API_KEY')
 
     # Storing The Context
     if "locale" not in st.session_state:
@@ -67,6 +69,10 @@ if __name__ == '__main__':
         st.session_state.dst = DST(recipe_path=RECIPE_PATH, dialog_path=DIALOG_PATH)
     if "dp" not in st.session_state:
         st.session_state.dp = DP(dst=st.session_state.dst)
+    if "openai" not in st.session_state:
+        st.session_state.openai = openai
+        st.session_state.openai.api_key = API_KEY
+
 
 def show_graph():
     # Create a graphlib graph object

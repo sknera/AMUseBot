@@ -23,7 +23,8 @@ def get_nlu_model(intent_dict_path = INTENT_DICT_PATH, model_identifier_path = M
                             model_identifier_path=model_identifier_path)
 
 def clear_chat() -> None:
-    st.session_state.generated = []
+    st.session_state.generated = ["Hello! I'm AMUseBot, a virtual cooking assistant. Please tell me the name of the dish that you'd like to prepare today."]
+    st.session_state.dst.restart()
     st.session_state.past = []
     st.session_state.messages = []
     st.session_state.user_text = ""

@@ -4,14 +4,14 @@ from AMUseBotBackend.src.NLG.nlg import NLG
 from AMUseBotBackend.src.tools.search import search_recipe
 
 import AMUseBotBackend.consts as c
-import openai
 import json
 
+import streamlit as st
 
 
 class DP:
 
-    def __init__(self, dst: DST, llm_rephrasing=False, character='default'): #TODO: a way to set llm_rephrasing status and a character
+    def __init__(self, dst: DST, llm_rephrasing=True, character='ramsay'): #TODO: a way to set llm_rephrasing status and a character
         self.dst_module = dst
         self.llm_rephrasing = llm_rephrasing
         with open('ai_talks/AMUseBotBackend/utils/characters_dict.json') as f:
@@ -21,14 +21,13 @@ class DP:
 
     def llm_rephrase(self, character, response):
         model = character['model']
-        openai.api_key = character['api_key']
         prompt = character['prompt']
         input = character['leftside_input'] + response + character['rightside_input']
 
         message = [{'role': 'system', 'content': prompt}, {'role': 'user', 'content': input}]
 
         try:
-            response = openai.ChatCompletion.create(
+            response = st.session_state.openai.ChatCompletion.create(
                 model=model, messages=message, temperature=1, max_tokens=128
             )
             rephrased_response = response.choices[0].message.content
