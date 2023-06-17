@@ -10,6 +10,8 @@ from PIL import Image
 from src.utils.conversation import get_user_input, show_chat_buttons, show_conversation
 from src.utils.lang import en
 import openai
+import copy
+import json
 
 import os
 from dotenv import load_dotenv
@@ -44,6 +46,7 @@ if __name__ == '__main__':
 
     DIALOG_PATH = os.getenv('DIALOG_PATH')
     RECIPE_PATH = os.getenv('RECIPE_PATH')
+    CHARACTERS_DICT = os.getenv('CHARACTERS_DICT')
     API_KEY = os.getenv('API_KEY')
 
     # Storing The Context
@@ -72,24 +75,25 @@ if __name__ == '__main__':
     if "openai" not in st.session_state:
         st.session_state.openai = openai
         st.session_state.openai.api_key = API_KEY
-
-
+    if "characters_dict" not in st.session_state:
+        with open(CHARACTERS_DICT) as f:
+            st.session_state.characters_dict = json.load(f)
+        
 def show_graph():
     # Create a graphlib graph object
     if st.session_state.generated:
         user, chatbot = [], []
         graph = graphviz.Digraph()
-        for i in range(len(st.session_state.past)):
-            chatbot.append(st.session_state.generated[i])
-            user.append(st.session_state.past[i])
+        chatbot = copy.deepcopy(st.session_state.generated)
+        user = copy.deepcopy(st.session_state.past)
         for x in range(len(user)):
-            chatbot_text = [word + '\n' if i % 5 == 0 and i > 0 else word for i, word in enumerate(st.session_state.generated[x].split(' '))]
-            user_text    = [word + '\n' if i % 5 == 0 and i > 0 else word for i, word in enumerate(st.session_state.past[x].split(' '))]
+            chatbot_text = [word + '\n' if i % 5 == 0 and i > 0 else word for i, word in enumerate(chatbot[x].split(' '))]
+            user_text    = [word + '\n' if i % 5 == 0 and i > 0 else word for i, word in enumerate(user[x].split(' '))]
             graph.edge(' '.join(chatbot_text), ' '.join(user_text))
-            try:
-                graph.edge(' '.join(user_text), ' '.join([word + '\n' if i % 5 == 0 and i > 0 else word for i, word in enumerate(st.session_state.generated[x + 1].split(' '))]))
-            except:
-                pass
+        try:
+            graph.edge(' '.join(user_text), ' '.join([word + '\n' if i % 5 == 0 and i > 0 else word for i, word in enumerate(chatbot[x + 1].split(' '))]))
+        except:
+            pass
         st.graphviz_chart(graph)
 
 
