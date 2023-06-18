@@ -90,10 +90,10 @@ def show_graph():
             chatbot_text = [word + '\n' if i % 5 == 0 and i > 0 else word for i, word in enumerate(chatbot[x].split(' '))]
             user_text    = [word + '\n' if i % 5 == 0 and i > 0 else word for i, word in enumerate(user[x].split(' '))]
             graph.edge(' '.join(chatbot_text), ' '.join(user_text))
-        try:
-            graph.edge(' '.join(user_text), ' '.join([word + '\n' if i % 5 == 0 and i > 0 else word for i, word in enumerate(chatbot[x + 1].split(' '))]))
-        except:
-            pass
+            try:
+                graph.edge(' '.join(user_text), ' '.join([word + '\n' if i % 5 == 0 and i > 0 else word for i, word in enumerate(chatbot[x + 1].split(' '))]))
+            except:
+                pass
         st.graphviz_chart(graph)
 
 
