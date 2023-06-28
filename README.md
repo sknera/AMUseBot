@@ -7,7 +7,7 @@
     conda create -n "my_env" python=3.9.12 ipython
     conda activate my_env
     pip install -r requirements.txt
-    python main.py
+    streamlit run ai_talks\chat.py
 
 After running system, model saves in dir:
 
