@@ -12,7 +12,7 @@ from AMUseBotBackend.src.NLU.nlu import NLU
 import os
 from dotenv import load_dotenv
 
-load_dotenv()
+load_dotenv('.env_template')
 
 INTENT_DICT_PATH = os.getenv('INTENT_DICT_PATH')
 MODEL_IDENTIFIER_PATH = os.getenv('MODEL_IDENTIFIER_PATH')

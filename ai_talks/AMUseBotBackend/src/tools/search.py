@@ -7,7 +7,7 @@ from rank_bm25 import BM25Okapi
 import os
 from dotenv import load_dotenv
 
-load_dotenv()
+load_dotenv('.env_template')
 
 INGREDIENTS_RECIPES_MERGED = os.getenv('INGREDIENTS_RECIPES_MERGED')  
 

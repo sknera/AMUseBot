@@ -42,7 +42,7 @@ if __name__ == '__main__':
     with open(css_file) as f:
         st.markdown(f"<style>{f.read()}</style>", unsafe_allow_html=True)
 
-    load_dotenv()
+    load_dotenv('.env_template')
 
     DIALOG_PATH = os.getenv('DIALOG_PATH')
     RECIPE_PATH = os.getenv('RECIPE_PATH')
