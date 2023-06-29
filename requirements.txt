@@ -16,6 +16,6 @@ simpletransformers==0.63.9
 torch==1.11.0
 spacy==3.5.0
 rank_bm25==0.2.2
-tqdm==4.64.1
+tqdm==4.65.0
 nlp==0.4.0
 python-dotenv==1.0.0
