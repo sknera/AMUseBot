@@ -13,7 +13,7 @@ Pillow==9.5.0
 pandas==1.5.2
 scikit_learn==1.2.0
 simpletransformers==0.63.9
-torch==1.11.0
+torch==2.0.1
 spacy==3.5.0
 rank_bm25==0.2.2
 tqdm==4.64.1
