@@ -17,9 +17,12 @@ Linux
 
 Windows
 
-    C:\Users\username\.cache\huggingface\transformers.
+    C:\Users\username\.cache\huggingface\transformers
 
+To use the purely experimental generative features, for now, an OpenAI API key is needed. Insert it into the following file:
 
+    AMUseBot/.env_template
+    
 ## Requirements
 
     Python 3.9.12
