@@ -20,15 +20,8 @@ class Locale:
     chat_clear_btn: str
     chat_save_btn: str
     speak_btn: str
-    input_kind: str
-    input_kind_1: str
-    input_kind_2: str
     select_placeholder1: str
     select_placeholder2: str
-    select_placeholder3: str
-    radio_placeholder: str
-    radio_text1: str
-    radio_text2: str
     stt_placeholder: str
     footer_title: str
     footer_option0: str
@@ -55,15 +48,8 @@ en = Locale(
     chat_clear_btn="Clear",
     chat_save_btn="Save",
     speak_btn="Push to Speak",
-    input_kind="Input Kind",
-    input_kind_1="Text",
-    input_kind_2="Voice [test mode]",
     select_placeholder1="Select Model",
     select_placeholder2="Select Role",
-    select_placeholder3="Create Role",
-    radio_placeholder="Role Interaction",
-    radio_text1="Select",
-    radio_text2="Create",
     stt_placeholder="To Hear The Voice Of AI Press Play",
     footer_title="Support & Feedback",
     footer_option0="Chat",

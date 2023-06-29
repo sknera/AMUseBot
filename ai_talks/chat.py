@@ -12,7 +12,9 @@ from src.utils.lang import en
 import openai
 import copy
 import json
-
+import string
+import streamlit.components.v1 as components
+import re
 import os
 from dotenv import load_dotenv
 
@@ -28,11 +30,6 @@ if __name__ == '__main__':
     favicon: Path = icons_dir / "favicons/0.png"
     # --- GENERAL SETTINGS ---
     LANG_PL: str = "Pl"
-    AI_MODEL_OPTIONS: list[str] = [
-        "gpt-3.5-turbo",
-        "gpt-4",
-        "gpt-4-32k",
-    ]
 
     CONFIG = {"page_title": "AMUsebot", "page_icon": Image.open(favicon)}
 
@@ -60,8 +57,6 @@ if __name__ == '__main__':
         st.session_state.messages = []
     if "user_text" not in st.session_state:
         st.session_state.user_text = ""
-    if "input_kind" not in st.session_state:
-        st.session_state.input_kind = st.session_state.locale.input_kind_1
     if "seed" not in st.session_state:
         st.session_state.seed = randrange(10 ** 3)  # noqa: S311
     if "costs" not in st.session_state:
@@ -79,55 +74,62 @@ if __name__ == '__main__':
         with open(CHARACTERS_DICT) as f:
             st.session_state.characters_dict = json.load(f)
         
-def show_graph():
+def mermaid(code: str) -> None:
+    components.html(
+        f"""
+        <pre class="mermaid">
+            %%{{init: {{'themeVariables': {{ 'edgeLabelBackground': 'transparent'}}}}}}%%
+            flowchart TD;
+            {code}
+            linkStyle default fill:white,color:white,stroke-width:2px,background-color:lime;
+        </pre>
+        <script type="module">
+            import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
+            mermaid.initialize({{ startOnLoad: true }});
+        </script>
+        """, height=1000
+    )
+
+def graph():
     # Create a graphlib graph object
     if st.session_state.generated:
-        user, chatbot = [], []
-        graph = graphviz.Digraph()
-        chatbot = copy.deepcopy(st.session_state.generated)
-        user = copy.deepcopy(st.session_state.past)
-        for x in range(len(user)):
-            chatbot_text = [word + '\n' if i % 5 == 0 and i > 0 else word for i, word in enumerate(chatbot[x].split(' '))]
-            user_text    = [word + '\n' if i % 5 == 0 and i > 0 else word for i, word in enumerate(user[x].split(' '))]
-            graph.edge(' '.join(chatbot_text), ' '.join(user_text))
-            try:
-                graph.edge(' '.join(user_text), ' '.join([word + '\n' if i % 5 == 0 and i > 0 else word for i, word in enumerate(chatbot[x + 1].split(' '))]))
-            except:
-                pass
-        st.graphviz_chart(graph)
+        system = [utterance for utterance in st.session_state.generated][-3:]
+        user = [utterance for utterance in st.session_state.past][-2:]
+        graph = ""
+        for i, utterance in enumerate(system):
+            utterance = utterance.strip('\n')
+            utterance = " ".join([word + '<br>' if i % 5 == 0 and i > 0 else word for i, word in enumerate(utterance.split(" "))])
+            utterance = utterance.replace('\"', '')
+            if i < len(user):
+                user[i] = user[i].strip('\n')
+                user[i] = user[i].replace('\"', '')
+                user[i] = " ".join([word + '<br>' if i % 5 == 0 and i > 0 else word for i, word in enumerate(user[i].split(' '))])
+                graph += f"{string.ascii_uppercase[i]}(\"{utterance}\") --> |{user[i]}| {string.ascii_uppercase[i+1]};"
+            else:
+                graph += f"{string.ascii_uppercase[i]}(\"{utterance}\") --> {string.ascii_uppercase[i+1]}(...);style {string.ascii_uppercase[i+1]} fill:none,color:white;"
+    graph = graph.replace('\n', ' ')#replace(')','').replace('(','')
+    #print(graph)
+    return graph
 
 
 def main() -> None:
     c1, c2 = st.columns(2)
     with c1, c2:
-        st.session_state.input_kind = c2.radio(
-            label=st.session_state.locale.input_kind,
-            options=(st.session_state.locale.input_kind_1, st.session_state.locale.input_kind_2),
-            horizontal=True,
-        )
-        role_kind = c1.radio(
-            label=st.session_state.locale.radio_placeholder,
-            options=(st.session_state.locale.radio_text1, st.session_state.locale.radio_text2),
-            horizontal=True,
-        )
-        if role_kind == st.session_state.locale.radio_text1:
-            character_type = c2.selectbox(label=st.session_state.locale.select_placeholder2, key="role",
-                             options=st.session_state.locale.ai_role_options)
-            st.session_state.dp.character = character_type
-            if character_type == 'default':
-                st.session_state.dp.llm_rephrasing = False
-            else:
-                st.session_state.dp.llm_rephrasing = True
-
-        elif role_kind == st.session_state.locale.radio_text2: 
-            c2.text_input(label=st.session_state.locale.select_placeholder3, key="role")
+        character_type = c1.selectbox(label=st.session_state.locale.select_placeholder2, key="role",
+                         options=st.session_state.locale.ai_role_options)
+        st.session_state.dp.character = character_type
+        if character_type == 'default':
+            st.session_state.dp.llm_rephrasing = False
+        else:
+            st.session_state.dp.llm_rephrasing = True
         
     get_user_input()
     show_chat_buttons()
     
     show_conversation()
     with st.sidebar:
-        show_graph()
+        mermaid(graph())
+        #show_graph()
 
 
 if __name__ == "__main__":

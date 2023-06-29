@@ -52,7 +52,7 @@ class NLG:
 
     def llm_substitute_product(character, user_message):
 
-        input = st.session_state.characters_dict['task_substitute'] + f'"{user_message}".'
+        input = st.session_state.characters_dict['task_substitute'] + f'"{user_message}".' + st.session_state.characters_dict['characters'][character]['task_specification']
 
         try:
             return NLG.llm_create_response(character, input)
