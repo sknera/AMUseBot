@@ -7,7 +7,7 @@ gTTS==2.3.2
 bokeh==2.4.2
 streamlit_bokeh_events==0.1.2
 watchdog==3.0.0
-setuptools~=65.5.0
+setuptools~=68.0.0
 graphviz==0.20.1
 Pillow==9.5.0
 pandas==1.5.2
