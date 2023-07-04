@@ -1,5 +1,9 @@
 # Cooking taskbot project
 
+## Preview
+
+![preview](https://github.com/sknera/AMUseBot/blob/utterance_paraphrasing/output.gif)
+
 ## Run system
 
 #### With Conda
