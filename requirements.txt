@@ -14,7 +14,7 @@ pandas==1.5.2
 scikit_learn==1.2.0
 simpletransformers==0.63.9
 torch==1.11.0
-spacy==3.5.0
+spacy==3.6.1
 rank_bm25==0.2.2
 tqdm==4.64.1
 nlp==0.4.0
