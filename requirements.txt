@@ -2,7 +2,7 @@ pip>=23.1.2
 streamlit==1.22.0
 streamlit_chat==0.0.2.2
 streamlit_option_menu==0.3.6
-openai==0.27.7
+openai==0.27.10
 gTTS==2.3.2
 bokeh==2.4.2
 streamlit_bokeh_events==0.1.2
